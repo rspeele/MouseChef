@@ -4,9 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseChef"
+        xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
-        Title="MouseChef" Height="350" Width="525">
+        d:DataContext="{d:DesignInstance local:MainViewModel}"
+        Title="MouseChef" Height="800" Width="1024">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <oxy:PlotView Model="{Binding Plot}" Grid.Column="0"/>
+        <GridSplitter Grid.Column="1" Background="LightSlateGray" HorizontalAlignment="Stretch"/>
+        <StackPanel Grid.Column="2" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" MinWidth="100"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <local:MouseInfoControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Caption="True Mouse"/>
+
+                <local:MouseInfoControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Caption="Test Mouse"/>
+
+                <CheckBox Grid.Row="2" Grid.Column="0">Lag Time</CheckBox>
+                <TextBox Grid.Row="2" Grid.Column="1"/>
+                <Label Grid.Row="2" Grid.Column="2">ms</Label>
+
+                <CheckBox Grid.Row="3" Grid.Column="0">Angle Offset</CheckBox>
+                <TextBox Grid.Row="3" Grid.Column="1"/>
+                <Label Grid.Row="3" Grid.Column="2">rad</Label>
+
+                <CheckBox Grid.Row="4" Grid.Column="0">DPI Scaling Factor</CheckBox>
+                <TextBox Grid.Row="4" Grid.Column="1"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

@@ -88,12 +88,21 @@
     <Compile Include="Input\SerializationTypes\Event.cs" />
     <Compile Include="Input\SerializationTypes\EventType.cs" />
     <Compile Include="Input\SerializationTypes\MoveEvent.cs" />
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MouseInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MouseInfoControl.xaml.cs">
+      <DependentUpon>MouseInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MouseInfoViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
