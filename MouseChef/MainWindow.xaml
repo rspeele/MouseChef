@@ -33,9 +33,9 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
 
-                <local:MouseInfoControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Caption="True Mouse"/>
+                <local:MouseInfoControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Caption="True Mouse" Margin="0 0 0 10"/>
 
-                <local:MouseInfoControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Caption="Test Mouse"/>
+                <local:MouseInfoControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Caption="Test Mouse" Margin="0 0 0 10"/>
 
                 <CheckBox Grid.Row="2" Grid.Column="0">Lag Time</CheckBox>
                 <TextBox Grid.Row="2" Grid.Column="1"/>
@@ -47,6 +47,7 @@
 
                 <CheckBox Grid.Row="4" Grid.Column="0">DPI Scaling Factor</CheckBox>
                 <TextBox Grid.Row="4" Grid.Column="1"/>
+                <Label Grid.Row="4" Grid.Column="2">x</Label>
             </Grid>
         </StackPanel>
     </Grid>

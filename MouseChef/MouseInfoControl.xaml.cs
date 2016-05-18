@@ -10,12 +10,19 @@ namespace MouseChef
         public MouseInfoControl()
         {
             InitializeComponent();
-            DataContext = new MouseInfoViewModel
-            {
-                Caption = Caption,
-            };
+            DataContext = new MouseInfoViewModel();
         }
 
-        public string Caption { get; set; }
+        public new MouseInfoViewModel DataContext
+        {
+            get { return (MouseInfoViewModel)base.DataContext; }
+            set { base.DataContext = value; }
+        }
+
+        public string Caption
+        {
+            get { return DataContext.Caption; }
+            set { DataContext.Caption = value; }
+        }
     }
 }
