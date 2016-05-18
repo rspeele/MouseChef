@@ -14,7 +14,7 @@
             <ColumnDefinition Width="5"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <oxy:PlotView Model="{Binding Plot}" Grid.Column="0"/>
+        <oxy:PlotView Model="{Binding Plot}" Grid.Column="0" />
         <GridSplitter Grid.Column="1" Background="LightSlateGray" HorizontalAlignment="Stretch"/>
         <StackPanel Grid.Column="2" Margin="5">
             <Grid>

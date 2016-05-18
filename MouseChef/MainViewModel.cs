@@ -5,33 +5,31 @@ namespace MouseChef
 {
     public class MainViewModel
     {
-        private const double MaxRange = 500 * 1000;
+        private const double MaxRange = 100 * 1000;
+        private const double DefaultZoom = 50;
         private const double TickSize = 1000;
+
+        private static LinearAxis MakeAxis(AxisPosition position, string title)
+            => new LinearAxis
+            {
+                Position = position,
+                Minimum = -MaxRange / DefaultZoom,
+                Maximum = MaxRange / DefaultZoom,
+                AbsoluteMinimum = -MaxRange,
+                AbsoluteMaximum = MaxRange,
+                MinorStep = TickSize,
+                MajorStep = TickSize * 10,
+                MinorGridlineStyle = LineStyle.Solid,
+                MajorGridlineStyle = LineStyle.Solid,
+                Title = title
+            };
 
         public MainViewModel()
         {
-            Plot.Axes.Add
-                (new LinearAxis
-                {
-                    Minimum = -MaxRange / 2,
-                    Maximum = MaxRange / 2,
-                    AbsoluteMinimum = -MaxRange,
-                    AbsoluteMaximum = MaxRange,
-                    MajorStep = TickSize,
-                    Title = "x"
-                });
-            Plot.Axes.Add
-                (new LinearAxis
-                {
-                    Minimum = -MaxRange / 2,
-                    Maximum = MaxRange / 2,
-                    AbsoluteMinimum = -MaxRange,
-                    AbsoluteMaximum = MaxRange,
-                    MajorStep = TickSize,
-                    Title = "y"
-                });
+            Plot.Axes.Add(MakeAxis(AxisPosition.Bottom, "x"));
+            Plot.Axes.Add(MakeAxis(AxisPosition.Left, "y"));
         }
 
-        public PlotModel Plot { get; set; }
+        public PlotModel Plot { get; set; } = new PlotModel();
     }
 }
