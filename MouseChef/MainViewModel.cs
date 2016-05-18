@@ -1,9 +1,13 @@
-﻿using OxyPlot;
+﻿using System;
+using MouseChef.Corrections;
+using MouseChef.Input;
+using OxyPlot;
 using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace MouseChef
 {
-    public class MainViewModel
+    public class MainViewModel : IEventProcessor, IDisposable
     {
         private const double MaxRange = 100 * 1000;
         private const double DefaultZoom = 50;
@@ -24,12 +28,27 @@ namespace MouseChef
                 Title = title
             };
 
+        private readonly InputReader _inputReader;
+
         public MainViewModel()
         {
             Plot.Axes.Add(MakeAxis(AxisPosition.Bottom, "x"));
             Plot.Axes.Add(MakeAxis(AxisPosition.Left, "y"));
+
+            _inputReader = new InputReader(this);
         }
 
         public PlotModel Plot { get; set; } = new PlotModel();
+
+        public void DeviceInfo(DeviceInfoEvent evt)
+        {
+            
+        }
+
+        public void Move(MoveEvent evt)
+        {
+        }
+
+        public void Dispose() => _inputReader.Dispose();
     }
 }

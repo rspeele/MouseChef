@@ -2,6 +2,7 @@
 {
     public enum EventType
     {
+        Nop,
         DeviceInfo,
         Move
     }

@@ -11,6 +11,13 @@ namespace MouseChef
         {
             InitializeComponent();
             DataContext = new MainViewModel();
+            Closed += (o, e) => DataContext.Dispose();
+        }
+
+        public new MainViewModel DataContext
+        {
+            get { return (MainViewModel)base.DataContext; }
+            set { base.DataContext = value; }
         }
     }
 }
