@@ -16,10 +16,11 @@ namespace MouseChef.Analysis.Analyzers
         private const double DistanceInterval = 50.0;
 
         public string Description => AnalyzerDescription;
+        public double DefaultFactor => 1.0;
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {
-            var stats = new PointStats(StatDescription);
+            var stats = new PointStats(StatDescription, DefaultFactor);
 
             var baseD = 0.0;
             var subjD = 0.0;

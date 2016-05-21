@@ -17,6 +17,7 @@ namespace MouseChef.Analysis.Analyzers
         private static readonly TimeSpan DeadStop = TimeSpan.FromSeconds(0.25);
 
         public string Description => AnalyzerDescription;
+        public double DefaultFactor => 0.0;
 
         private class MouseLagProcessor
         {
@@ -59,7 +60,7 @@ namespace MouseChef.Analysis.Analyzers
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {
-            var stats = new PointStats(StatDescription);
+            var stats = new PointStats(StatDescription, DefaultFactor);
 
             var baseAnalyzer = new MouseLagProcessor(baseline, stats, isBaseline: true);
             var subjectAnalyzer = new MouseLagProcessor(subject, stats, isBaseline: false);

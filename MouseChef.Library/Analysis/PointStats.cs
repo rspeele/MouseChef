@@ -112,7 +112,9 @@ namespace MouseChef.Analysis
             // TODO: cache the most recent interval and optimize for lookups that still fall within it or its immediate neighbors
 
             if (_points.Count <= 0)
-                return new TimePointInterval(new TimePoint(TimeSpan.Zero, _defaultValue), new TimePoint(TimeSpan.Zero, _defaultValue);
+                return new TimePointInterval
+                    ( new TimePoint(TimeSpan.Zero, _defaultValue)
+                    , new TimePoint(TimeSpan.Zero, _defaultValue));
             var lowIndex = 0; // First index within range of the search.
             var highBound = _points.Count; // First index beyond the range of the search.
             int previousLowIndex;
