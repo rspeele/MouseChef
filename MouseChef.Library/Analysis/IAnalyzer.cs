@@ -5,6 +5,7 @@ namespace MouseChef.Analysis
     public interface IAnalyzer
     {
         string Description { get; }
+        double DefaultFactor { get; }
         /// <summary>
         /// Generate statistics from a stream of moves.
         /// The values reported in the resulting statistics are factors that would transform the subject mouse

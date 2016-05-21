@@ -29,8 +29,11 @@ namespace MouseChef.Analysis.Analyzers
             {
                 if (move.Time > crossTime)
                 {
-                    var angleDelta = subjD.Angle - baseD.Angle;
-                    stats.AddPoint(crossTime, angleDelta);
+                    if (baseD.MagnitudeSquared > 1.0 && subjD.MagnitudeSquared > 1.0)
+                    {
+                        var angleDelta = subjD.Angle - baseD.Angle;
+                        stats.AddPoint(crossTime, angleDelta);
+                    }
                     // Reset trackers.
                     baseD = Vec.Zero;
                     subjD = Vec.Zero;

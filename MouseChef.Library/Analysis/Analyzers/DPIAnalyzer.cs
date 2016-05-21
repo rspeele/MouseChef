@@ -28,8 +28,11 @@ namespace MouseChef.Analysis.Analyzers
             {
                 if (move.Time > crossTime)
                 {
-                    var ratio = subjD / baseD;
-                    stats.AddPoint(crossTime, ratio);
+                    if (Math.Abs(baseD) > 0.001)
+                    {
+                        var ratio = subjD / baseD;
+                        stats.AddPoint(crossTime, ratio);
+                    }
                     // Reset trackers.
                     baseD = 0.0;
                     subjD = 0.0;

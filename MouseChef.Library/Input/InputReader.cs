@@ -55,7 +55,7 @@ namespace MouseChef.Input
             _reader.Join();
             try
             {
-                _mouseMeat.WaitForExit(500);
+                _mouseMeat.WaitForExit(milliseconds: 500);
             }
             catch
             { // no matter, we'll kill it

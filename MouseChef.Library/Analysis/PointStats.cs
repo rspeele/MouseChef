@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MouseChef.Analysis
 {
     public class PointStats : IStats
     {
         private readonly List<TimePoint> _points = new List<TimePoint>();
+        private readonly double _defaultValue;
         /// <summary>
         /// Mutable total of the point values received. Used for mean value.
         /// </summary>
@@ -16,11 +18,14 @@ namespace MouseChef.Analysis
 
         // Computed variance paired with the # of points recorded at the time it was computed.
         // This pairing lets us know if we need to recompute the variance.
-        private KeyValuePair<int, double> _cachedVariance = new KeyValuePair<int, double>(0, 0.0);
+        private KeyValuePair<int, double> _cachedVariance;
+        private KeyValuePair<int, double> _cachedMedian;
 
-        public PointStats(string description)
+        public PointStats(string description, double defaultValue)
         {
             Description = description;
+            _defaultValue = defaultValue;
+            _cachedMedian = _cachedVariance = new KeyValuePair<int, double>(0, defaultValue);
         }
 
         private void PreInsert(int index, TimePoint timePoint)
@@ -58,10 +63,25 @@ namespace MouseChef.Analysis
         public TimeSpan Start { get; private set; } = TimeSpan.Zero;
         public TimeSpan End { get; private set; } = TimeSpan.Zero;
 
-        public double MinValue => _minValue ?? 0.0;
-        public double MaxValue => _maxValue ?? 0.0;
+        public double MinValue => _minValue ?? _defaultValue;
+        public double MaxValue => _maxValue ?? _defaultValue;
 
-        public double MedianValue => _points.Count == 0 ? 0.0 : _points[_points.Count / 2].Value;
+        public double MedianValue
+        {
+            get
+            {
+                if (_cachedMedian.Key == _points.Count) return _cachedMedian.Value;
+                if (_points.Count <= 0)
+                {
+                    _cachedMedian = new KeyValuePair<int, double>(_points.Count, _defaultValue);
+                    return _cachedMedian.Value;
+                }
+                var sorted = _points.OrderBy(p => p.Value);
+                var middle = sorted.Take(_points.Count / 2 + 1).Last();
+                _cachedMedian = new KeyValuePair<int, double>(_points.Count, middle.Value);
+                return _cachedMedian.Value;
+            }
+        }
         public double MeanValue => _runningTotal / _points.Count;
 
         /// <summary>
@@ -92,7 +112,7 @@ namespace MouseChef.Analysis
             // TODO: cache the most recent interval and optimize for lookups that still fall within it or its immediate neighbors
 
             if (_points.Count <= 0)
-                return new TimePointInterval(new TimePoint(TimeSpan.Zero, 0.0), new TimePoint(TimeSpan.Zero, 0.0));
+                return new TimePointInterval(new TimePoint(TimeSpan.Zero, _defaultValue), new TimePoint(TimeSpan.Zero, _defaultValue);
             var lowIndex = 0; // First index within range of the search.
             var highBound = _points.Count; // First index beyond the range of the search.
             int previousLowIndex;
