@@ -1,5 +1,4 @@
 ﻿using System;
-using MouseChef.Corrections;
 using MouseChef.Input;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -29,11 +28,13 @@ namespace MouseChef
             };
 
         private readonly InputReader _inputReader;
+        private readonly LineSeries _mouse = new LineSeries();
 
         public MainViewModel()
         {
             Plot.Axes.Add(MakeAxis(AxisPosition.Bottom, "x"));
             Plot.Axes.Add(MakeAxis(AxisPosition.Left, "y"));
+            Plot.Series.Add(_mouse);
 
             _inputReader = new InputReader(this);
         }
@@ -42,11 +43,13 @@ namespace MouseChef
 
         public void DeviceInfo(DeviceInfoEvent evt)
         {
-            
         }
 
         public void Move(MoveEvent evt)
         {
+            var lastPoint = _mouse.Points.Count > 0 ? _mouse.Points[_mouse.Points.Count - 1] : new DataPoint(0, 0);
+            _mouse.Points.Add(new DataPoint(lastPoint.X + evt.Dx, lastPoint.Y - evt.Dy));
+            Plot.InvalidatePlot(false);
         }
 
         public void Dispose() => _inputReader.Dispose();

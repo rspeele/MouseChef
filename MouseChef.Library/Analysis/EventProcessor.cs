@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MouseChef.Input;
 
-namespace MouseChef.Corrections
+namespace MouseChef.Analysis
 {
     public class EventProcessor : IEventProcessor
     {

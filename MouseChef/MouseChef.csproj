@@ -79,15 +79,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Corrections\EventProcessor.cs" />
-    <Compile Include="Corrections\Mouse.cs" />
-    <Compile Include="Corrections\Move.cs" />
-    <Compile Include="Input\IEventProcessor.cs" />
-    <Compile Include="Input\InputReader.cs" />
-    <Compile Include="Input\SerializationTypes\DeviceInfoEvent.cs" />
-    <Compile Include="Input\SerializationTypes\Event.cs" />
-    <Compile Include="Input\SerializationTypes\EventType.cs" />
-    <Compile Include="Input\SerializationTypes\MoveEvent.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -130,7 +121,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\MouseChef.Library\MouseChef.Library.csproj">
+      <Project>{bffe8271-ff05-43ec-b486-0c27ef385f55}</Project>
+      <Name>MouseChef.Library</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

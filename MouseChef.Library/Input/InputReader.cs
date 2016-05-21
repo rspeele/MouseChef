@@ -32,7 +32,6 @@ namespace MouseChef.Input
         {
             while (!_disposed)
             {
-                _mouseMeat.StandardInput.WriteLine("e");
                 var evtText = _mouseMeat.StandardOutput.ReadLine();
                 var evt = JsonConvert.DeserializeObject<Event>(evtText);
                 switch (evt.Type)
@@ -54,6 +53,14 @@ namespace MouseChef.Input
             if (_disposed) return;
             _disposed = true;
             _reader.Join();
+            try
+            {
+                _mouseMeat.WaitForExit(500);
+            }
+            catch
+            { // no matter, we'll kill it
+            }
+            if (!_mouseMeat.HasExited) _mouseMeat.Kill();
             _mouseMeat.Dispose();
         }
     }
