@@ -129,7 +129,8 @@ namespace MouseChef.Analysis
                     lowIndex = searchIndex;
                 }
             } while (lowIndex != previousLowIndex || highBound != previousHighBound);
-            throw new Exception("Binary search reached a state where it re-iterated without changing bounds.");
+            throw new ProgrammerFaultException
+                ("Binary search reached a state where it re-iterated without changing bounds.");
         }
 
         public double ValueAt(TimeSpan time)
