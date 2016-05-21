@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\Analyzers\LagAnalyzer.cs" />
     <Compile Include="Analysis\EventProcessor.cs" />
     <Compile Include="Analysis\IAnalyzer.cs" />
     <Compile Include="Analysis\IStats.cs" />
