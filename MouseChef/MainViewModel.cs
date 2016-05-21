@@ -47,9 +47,12 @@ namespace MouseChef
 
         public void Move(MoveEvent evt)
         {
-            var lastPoint = _mouse.Points.Count > 0 ? _mouse.Points[_mouse.Points.Count - 1] : new DataPoint(0, 0);
-            _mouse.Points.Add(new DataPoint(lastPoint.X + evt.Dx, lastPoint.Y - evt.Dy));
-            Plot.InvalidatePlot(false);
+            lock (Plot.SyncRoot)
+            {
+                var lastPoint = _mouse.Points.Count > 0 ? _mouse.Points[_mouse.Points.Count - 1] : new DataPoint(0, 0);
+                _mouse.Points.Add(new DataPoint(lastPoint.X + evt.Dx, lastPoint.Y - evt.Dy));
+            }
+            Plot.InvalidatePlot(updateData: false);
         }
 
         public void Dispose() => _inputReader.Dispose();
