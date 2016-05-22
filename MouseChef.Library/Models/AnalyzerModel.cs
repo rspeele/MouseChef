@@ -27,32 +27,35 @@ namespace MouseChef.Models
         public IStats LatestStats
         {
             get { return _latestStats; }
-            set { _latestStats = value; OnPropertyChanged(); }
+            set { _latestStats = value; OnPropertyChanged(); OnPropertyChanged(nameof(Factor)); }
         }
 
         public double OverrideFactor
         {
             get { return _overrideFactor; }
-            set { _overrideFactor = value; OnPropertyChanged(); }
+            set { _overrideFactor = value; OnPropertyChanged(); OnPropertyChanged(nameof(Factor)); }
         }
 
         public AnalyzerFactorMode FactorMode
         {
             get { return _factorMode; }
-            set { _factorMode = value; OnPropertyChanged(); }
+            set { _factorMode = value; OnPropertyChanged(); OnPropertyChanged(nameof(Factor)); }
         }
 
-        public double Factor()
+        public double Factor
         {
-            switch (FactorMode)
+            get
             {
-                case AnalyzerFactorMode.Mean:
-                    return LatestStats?.MeanValue ?? Analyzer.DefaultFactor;
-                case AnalyzerFactorMode.Median:
-                    return LatestStats?.MedianValue ?? Analyzer.DefaultFactor;
-                case AnalyzerFactorMode.Override:
-                default:
-                    return OverrideFactor;
+                switch (FactorMode)
+                {
+                    case AnalyzerFactorMode.Mean:
+                        return LatestStats?.MeanValue ?? Analyzer.DefaultFactor;
+                    case AnalyzerFactorMode.Median:
+                        return LatestStats?.MedianValue ?? Analyzer.DefaultFactor;
+                    case AnalyzerFactorMode.Override:
+                    default:
+                        return OverrideFactor;
+                }
             }
         }
 

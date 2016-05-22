@@ -4,6 +4,7 @@ namespace MouseChef.Analysis
 {
     public interface IAnalyzer
     {
+        string Name { get; }
         string Description { get; }
         double DefaultFactor { get; }
         /// <summary>

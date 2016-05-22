@@ -37,7 +37,7 @@ namespace MouseChef
         private readonly EventProcessor _eventProcessor = new EventProcessor();
         private readonly Dictionary<Mouse, LineSeries> _series = new Dictionary<Mouse, LineSeries>();
 
-        private static IAnalyzer[] Analzyers() => new IAnalyzer[]
+        private static IEnumerable<IAnalyzer> Analzyers() => new IAnalyzer[]
         {
             new LagAnalyzer(),
             new AngleAnalyzer(),
@@ -85,9 +85,12 @@ namespace MouseChef
             }
         }
 
+        private int _bufferCount = 0;
         public void Move(MoveEvent evt)
         {
             _eventProcessor.Move(evt);
+            if (_bufferCount++ < 100) return;
+            _bufferCount = 0;
             var moves = MultiAnalyzer.Update(_eventProcessor.Moves);
             lock (Plot.SyncRoot)
             {

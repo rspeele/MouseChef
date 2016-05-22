@@ -15,6 +15,7 @@ namespace MouseChef.Analysis.Analyzers
         // We record a data point each time all mice have traveled at least this much in their own units.
         private const double DistanceInterval = 50.0;
 
+        public string Name => "DPI Ratio";
         public string Description => AnalyzerDescription;
         public double DefaultFactor => 1.0;
 

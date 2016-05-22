@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MouseChef"
         xmlns:oxy="http://oxyplot.org/wpf"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel}"
         Title="MouseChef" Height="800" Width="1024">
@@ -17,38 +18,23 @@
         <oxy:PlotView Model="{Binding Plot}" Grid.Column="0" />
         <GridSplitter Grid.Column="1" Background="LightSlateGray" HorizontalAlignment="Stretch"/>
         <StackPanel Grid.Column="2" Margin="5">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto" MinWidth="100"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
 
-                <local:MouseInfoControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Caption="True Mouse" Margin="0 0 0 10"/>
+            <local:MouseInfoControl Caption="True Mouse" Margin="0 0 0 10"/>
 
-                <local:MouseInfoControl Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Caption="Test Mouse" Margin="0 0 0 10"/>
+            <local:MouseInfoControl Caption="Test Mouse" Margin="0 0 0 10"/>
 
-                <CheckBox Grid.Row="2" Grid.Column="0">Lag Time</CheckBox>
-                <TextBox Grid.Row="2" Grid.Column="1"/>
-                <Label Grid.Row="2" Grid.Column="2">ms</Label>
-
-                <CheckBox Grid.Row="3" Grid.Column="0">Angle Offset</CheckBox>
-                <TextBox Grid.Row="3" Grid.Column="1"/>
-                <Label Grid.Row="3" Grid.Column="2">rad</Label>
-
-                <CheckBox Grid.Row="4" Grid.Column="0">DPI Scaling Factor</CheckBox>
-                <TextBox Grid.Row="4" Grid.Column="1"/>
-                <Label Grid.Row="4" Grid.Column="2">x</Label>
-            </Grid>
+            <ItemsControl ItemsSource="{Binding MultiAnalyzer.Analyzers}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Separator/>
+                            <Label Content="{Binding Analyzer.Name}"/>
+                            <xctk:DoubleUpDown IsReadOnly="True" Value="{Binding Factor,Mode=OneWay}"/>
+                            <xctk:DoubleUpDown Value="{Binding OverrideFactor}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </Grid>
 </Window>

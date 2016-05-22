@@ -16,6 +16,7 @@ namespace MouseChef.Analysis.Analyzers
         // We consider a mouse stopped when we haven't heard from it in this long.
         private static readonly TimeSpan DeadStop = TimeSpan.FromSeconds(0.25);
 
+        public string Name => "Lag Time";
         public string Description => AnalyzerDescription;
         public double DefaultFactor => 0.0;
 

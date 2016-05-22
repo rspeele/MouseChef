@@ -52,7 +52,7 @@ namespace MouseChef.Models
             {
                 var stats = analyzer.Analyzer.Analyze(Baseline, Subject, moves);
                 analyzer.LatestStats = stats;
-                var factor = analyzer.Factor();
+                var factor = analyzer.Factor;
                 for (var i = 0; i < moves.Count; i++)
                 {
                     if (moves[i].Mouse != Subject) continue;
