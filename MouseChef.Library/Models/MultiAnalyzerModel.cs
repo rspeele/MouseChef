@@ -36,7 +36,17 @@ namespace MouseChef.Models
             var moves = allMoves.ToList();
             if (Baseline == null || Subject == null)
             {
-                return moves;
+                var mice = moves.Select(m => m.Mouse).Distinct().Take(2).ToList();
+                if (Baseline == null && mice.Count >= 1)
+                {
+                    Baseline = mice[0];
+                }
+                if (Subject == null && mice.Count >= 2)
+                {
+                    Subject = mice[1];
+                }
+                if (Baseline == null || Subject == null)
+                    return moves;
             }
             foreach (var analyzer in _analyzerModels)
             {

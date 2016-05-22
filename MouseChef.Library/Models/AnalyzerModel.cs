@@ -19,6 +19,7 @@ namespace MouseChef.Models
         public AnalyzerModel(IAnalyzer analyzer)
         {
             Analyzer = analyzer;
+            OverrideFactor = analyzer.DefaultFactor;
         }
 
         public IAnalyzer Analyzer { get; }

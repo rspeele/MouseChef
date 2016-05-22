@@ -82,7 +82,8 @@ namespace MouseChef.Analysis
                 return _cachedMedian.Value;
             }
         }
-        public double MeanValue => _runningTotal / _points.Count;
+
+        public double MeanValue => _points.Count > 0 ? _runningTotal / _points.Count : _defaultValue;
 
         /// <summary>
         /// The average of the squared differences from the mean.

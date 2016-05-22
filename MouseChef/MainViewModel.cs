@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using MouseChef.Analysis;
+using MouseChef.Analysis.Analyzers;
 using MouseChef.Input;
+using MouseChef.Models;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -29,6 +34,18 @@ namespace MouseChef
 
         private readonly InputReader _inputReader;
         private readonly LineSeries _mouse = new LineSeries();
+        private readonly EventProcessor _eventProcessor = new EventProcessor();
+        private readonly Dictionary<Mouse, LineSeries> _series = new Dictionary<Mouse, LineSeries>();
+
+        private static IAnalyzer[] Analzyers() => new IAnalyzer[]
+        {
+            new LagAnalyzer(),
+            new AngleAnalyzer(),
+            new DPIAnalyzer(), 
+        };
+
+        public MultiAnalyzerModel MultiAnalyzer { get; } = new MultiAnalyzerModel
+            (Analzyers().Select(a => new AnalyzerModel(a)));
 
         public MainViewModel()
         {
@@ -41,18 +58,46 @@ namespace MouseChef
 
         public PlotModel Plot { get; set; } = new PlotModel();
 
-        public void DeviceInfo(DeviceInfoEvent evt)
+        public void DeviceInfo(DeviceInfoEvent evt) => _eventProcessor.DeviceInfo(evt);
+
+        public LineSeries SeriesForMouse(Mouse mouse)
         {
+            LineSeries found;
+            if (_series.TryGetValue(mouse, out found)) return found;
+            found = new LineSeries
+            {
+                DataFieldX = "X",
+                DataFieldY = "Y",
+            };
+            Plot.Series.Add(found);
+            _series[mouse] = found;
+            return found;
+        }
+
+        private static IEnumerable<Vec> MovesToPositions(IEnumerable<Move> moves)
+        {
+            var pos = new Vec(0, 0);
+            yield return pos;
+            foreach (var move in moves)
+            {
+                pos += move.D;
+                yield return pos;
+            }
         }
 
         public void Move(MoveEvent evt)
         {
+            _eventProcessor.Move(evt);
+            var moves = MultiAnalyzer.Update(_eventProcessor.Moves);
             lock (Plot.SyncRoot)
             {
-                var lastPoint = _mouse.Points.Count > 0 ? _mouse.Points[_mouse.Points.Count - 1] : new DataPoint(0, 0);
-                _mouse.Points.Add(new DataPoint(lastPoint.X + evt.Dx, lastPoint.Y - evt.Dy));
+                foreach (var mouse in _eventProcessor.Mice)
+                {
+                    var series = SeriesForMouse(mouse);
+                    series.ItemsSource = MovesToPositions(moves.Where(m => m.Mouse == mouse));
+                }
             }
-            Plot.InvalidatePlot(updateData: false);
+            Plot.InvalidatePlot(updateData: true);
         }
 
         public void Dispose() => _inputReader.Dispose();
