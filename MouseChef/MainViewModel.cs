@@ -92,13 +92,10 @@ namespace MouseChef
             if (_bufferCount++ < 100) return;
             _bufferCount = 0;
             var moves = MultiAnalyzer.Update(_eventProcessor.Moves);
-            lock (Plot.SyncRoot)
+            foreach (var mouse in _eventProcessor.Mice)
             {
-                foreach (var mouse in _eventProcessor.Mice)
-                {
-                    var series = SeriesForMouse(mouse);
-                    series.ItemsSource = MovesToPositions(moves.Where(m => m.Mouse == mouse));
-                }
+                var series = SeriesForMouse(mouse);
+                series.ItemsSource = MovesToPositions(moves.Where(m => m.Mouse == mouse));
             }
             Plot.InvalidatePlot(updateData: true);
         }
