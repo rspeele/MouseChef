@@ -20,6 +20,9 @@ namespace MouseChef
         public Vec Add(Vec o) => new Vec(X + o.X, Y + o.Y);
         public Vec Sub(Vec o) => new Vec(X - o.X, Y - o.Y);
 
+        private const double ZeroThreshold = 1e-5;
+        public bool IsZero => Math.Abs(X) < ZeroThreshold && Math.Abs(Y) < ZeroThreshold;
+
         /// <summary>
         /// Square of the magnitude.
         /// </summary>
@@ -36,6 +39,7 @@ namespace MouseChef
         public static Vec operator -(Vec v, Vec u) => v.Sub(u);
         public static Vec operator -(Vec v) => v.Mul(-1.0);
 
+        public Vec Normal => Div(Magnitude);
         public double Angle => Math.Atan2(Y, X);
         public Vec Rotate(double rads)
         {
@@ -45,6 +49,8 @@ namespace MouseChef
                 ( X * c - Y * s
                 , Y * c + X * s);
         }
+
+        public override string ToString() => $"({X:0.##},{Y:0.##})";
 
         public static readonly Vec Zero = new Vec(x: 0, y: 0);
     }

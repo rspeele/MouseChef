@@ -14,7 +14,7 @@ namespace MouseChef.Models
     {
         private IStats _latestStats;
         private double _overrideFactor;
-        private AnalyzerFactorMode _factorMode;
+        private AnalyzerFactorMode _factorMode = AnalyzerFactorMode.Mean;
 
         public AnalyzerModel(IAnalyzer analyzer)
         {
