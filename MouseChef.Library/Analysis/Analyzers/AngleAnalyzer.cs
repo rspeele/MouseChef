@@ -31,7 +31,7 @@ namespace MouseChef.Analysis.Analyzers
             {
                 if (move.Time > crossTime)
                 {
-                    if (baseD.MagnitudeSquared > 1.0 && subjD.MagnitudeSquared > 1.0)
+                    if (baseD.MagnitudeSquared > threshold && subjD.MagnitudeSquared > threshold)
                     {
                         var angleDelta = subjD.Angle - baseD.Angle;
                         stats.AddPoint(crossTime, angleDelta);
