@@ -9,45 +9,55 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel}"
         Title="MouseChef" Height="800" Width="1024">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
-            <ColumnDefinition Width="5"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <oxy:PlotView Model="{Binding Plot}" Grid.Column="0" />
-        <GridSplitter Grid.Column="1" Background="LightSlateGray" HorizontalAlignment="Stretch"/>
-        <StackPanel Grid.Column="2" Margin="5">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open" Command="{Binding OpenFileCommand}"/>
+                <MenuItem Header="_Save" Command="{Binding SaveFileCommand}"/>
+                <MenuItem Header="Start _Recording" IsEnabled="{Binding Recording,Converter={StaticResource NegateBool}}" Command="{Binding StartRecordingCommand}"/>
+                <MenuItem Header="_End Recording" IsEnabled="{Binding Recording}" Command="{Binding StopRecordingCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <oxy:PlotView Model="{Binding Plot}" Grid.Column="0" />
+            <GridSplitter Grid.Column="1" Background="LightSlateGray" HorizontalAlignment="Stretch"/>
+            <StackPanel Grid.Column="2" Margin="5">
 
-            <local:MouseInfoControl DataContext="{Binding BaselineMouse}" Margin="0 0 0 10"/>
+                <local:MouseInfoControl DataContext="{Binding BaselineMouse}" Margin="0 0 0 10"/>
 
-            <local:MouseInfoControl DataContext="{Binding SubjectMouse}" Margin="0 0 0 10"/>
+                <local:MouseInfoControl DataContext="{Binding SubjectMouse}" Margin="0 0 0 10"/>
 
-            <ItemsControl ItemsSource="{Binding MultiAnalyzer.Analyzers}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="0 10 0 10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
+                <ItemsControl ItemsSource="{Binding MultiAnalyzer.Analyzers}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0 10 0 10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" Content="{Binding Analyzer.Name}" Width="125"/>
-                            <ComboBox
+                                <Label Grid.Row="0" Grid.Column="0" Content="{Binding Analyzer.Name}" Width="125"/>
+                                <ComboBox
                                 Grid.Row="0" Grid.Column="1"
                                 ItemsSource="{Binding FactorModes}" SelectedItem="{Binding FactorMode}" Width="125"/>
-                            
-                            <xctk:DoubleUpDown
+
+                                <xctk:DoubleUpDown
                                 Grid.Row="0" Grid.Column="2" Visibility="{Binding IsOverridden,Converter={StaticResource BoolToVisibility},ConverterParameter=not}"
                                 IsReadOnly="True" Value="{Binding Factor,Mode=OneWay}" FormatString="0.000"/>
-                            <xctk:DoubleUpDown
+                                <xctk:DoubleUpDown
                                 Grid.Row="0" Grid.Column="2" Visibility="{Binding IsOverridden,Converter={StaticResource BoolToVisibility}}"
                                 Value="{Binding OverrideFactor}" FormatString="0.000"/>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </StackPanel>
-    </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+    </DockPanel>
 </Window>

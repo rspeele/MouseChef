@@ -25,5 +25,12 @@ namespace MouseChef.Analysis
             Moves.Add(new Move(mouse, evt.Us, evt.Dx, evt.Dy));
             return newMouse;
         }
+
+        public void Reset()
+        {
+            _deviceInfos.Clear();
+            _mice.Clear();
+            Moves.Clear();
+        }
     }
 }
