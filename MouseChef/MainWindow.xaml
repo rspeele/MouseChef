@@ -26,12 +26,28 @@
             <ItemsControl ItemsSource="{Binding MultiAnalyzer.Analyzers}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <Separator/>
-                            <Label Content="{Binding Analyzer.Name}"/>
-                            <xctk:DoubleUpDown IsReadOnly="True" Value="{Binding Factor,Mode=OneWay}"/>
-                            <xctk:DoubleUpDown Value="{Binding OverrideFactor}"/>
-                        </StackPanel>
+                        <Grid Margin="0 10 0 10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0" Grid.Column="0" Content="{Binding Analyzer.Name}" Width="125"/>
+                            <ComboBox
+                                Grid.Row="0" Grid.Column="1"
+                                ItemsSource="{Binding FactorModes}" SelectedItem="{Binding FactorMode}" Width="125"/>
+                            
+                            <xctk:DoubleUpDown
+                                Grid.Row="0" Grid.Column="2" Visibility="{Binding IsOverridden,Converter={StaticResource BoolToVisibility},ConverterParameter=not}"
+                                IsReadOnly="True" Value="{Binding Factor,Mode=OneWay}" FormatString="0.000"/>
+                            <xctk:DoubleUpDown
+                                Grid.Row="0" Grid.Column="2" Visibility="{Binding IsOverridden,Converter={StaticResource BoolToVisibility}}"
+                                Value="{Binding OverrideFactor}" FormatString="0.000"/>
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

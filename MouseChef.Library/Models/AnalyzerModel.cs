@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using MouseChef.Analysis;
 
@@ -36,10 +38,19 @@ namespace MouseChef.Models
             set { _overrideFactor = value; OnPropertyChanged(); OnPropertyChanged(nameof(Factor)); }
         }
 
+        public IEnumerable<AnalyzerFactorMode> FactorModes
+            => (AnalyzerFactorMode[])Enum.GetValues(typeof(AnalyzerFactorMode));
+
         public AnalyzerFactorMode FactorMode
         {
             get { return _factorMode; }
-            set { _factorMode = value; OnPropertyChanged(); OnPropertyChanged(nameof(Factor)); }
+            set
+            {
+                _factorMode = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Factor));
+                OnPropertyChanged(nameof(IsOverridden));
+            }
         }
 
         public double Factor
@@ -58,6 +69,8 @@ namespace MouseChef.Models
                 }
             }
         }
+
+        public bool IsOverridden => FactorMode == AnalyzerFactorMode.Override;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
