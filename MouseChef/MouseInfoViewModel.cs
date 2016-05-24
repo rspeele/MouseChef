@@ -20,6 +20,12 @@ namespace MouseChef
             _isBaseline = isBaseline;
         }
 
+        public void Reset()
+        {
+            MouseOptions = null;
+            SelectedMouse = null;
+        }
+
         public string Caption
         {
             get { return _caption; }

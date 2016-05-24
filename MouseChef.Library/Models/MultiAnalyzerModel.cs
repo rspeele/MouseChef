@@ -16,6 +16,12 @@ namespace MouseChef.Models
             _analyzerModels = analyzerModels.ToList();
         }
 
+        public void Reset()
+        {
+            Baseline = null;
+            Subject = null;
+        }
+
         public IEnumerable<AnalyzerModel> Analyzers => _analyzerModels;
 
         public List<Move> Update(IEnumerable<Move> allMoves)

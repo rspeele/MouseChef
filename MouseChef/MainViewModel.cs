@@ -33,7 +33,6 @@ namespace MouseChef
             };
 
         private readonly InputReader _inputReader;
-        private readonly LineSeries _mouse = new LineSeries();
         private readonly EventProcessor _eventProcessor = new EventProcessor();
         private readonly Dictionary<Mouse, LineSeries> _series = new Dictionary<Mouse, LineSeries>();
 
@@ -47,15 +46,25 @@ namespace MouseChef
         public MultiAnalyzerModel MultiAnalyzer { get; } = new MultiAnalyzerModel
             (Analzyers().Select(a => new AnalyzerModel(a)));
 
+        private void Reset()
+        {
+            _series.Clear();
+            MultiAnalyzer.Reset();
+            BaselineMouse.Reset();
+            SubjectMouse.Reset();
+            Plot.Series.Clear();
+            Plot.InvalidatePlot(updateData: true);
+        }
+
         public MainViewModel()
         {
             Plot.Axes.Add(MakeAxis(AxisPosition.Bottom, "x"));
             Plot.Axes.Add(MakeAxis(AxisPosition.Left, "y"));
-            Plot.Series.Add(_mouse);
 
             _inputReader = new InputReader(this);
             BaselineMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: true) { Caption = "Baseline Mouse" };
             SubjectMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: false) { Caption = "Subject Mouse" };
+            Reset();
         }
 
         public MouseInfoViewModel BaselineMouse { get; set; }
