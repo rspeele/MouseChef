@@ -54,7 +54,12 @@ namespace MouseChef
             Plot.Series.Add(_mouse);
 
             _inputReader = new InputReader(this);
+            BaselineMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: true) { Caption = "Baseline Mouse" };
+            SubjectMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: false) { Caption = "Subject Mouse" };
         }
+
+        public MouseInfoViewModel BaselineMouse { get; set; }
+        public MouseInfoViewModel SubjectMouse { get; set; }
 
         public PlotModel Plot { get; set; } = new PlotModel();
 
@@ -88,7 +93,19 @@ namespace MouseChef
         private int _bufferCount = 0;
         public void Move(MoveEvent evt)
         {
-            _eventProcessor.Move(evt);
+            if (_eventProcessor.Move(evt))
+            {
+                if (BaselineMouse.SelectedMouse == null)
+                {
+                    BaselineMouse.SelectedMouse = _eventProcessor.Mice.FirstOrDefault();
+                }
+                if (SubjectMouse.SelectedMouse == null)
+                {
+                    SubjectMouse.SelectedMouse = _eventProcessor.Mice.FirstOrDefault(m => m != BaselineMouse.SelectedMouse);
+                }
+                SubjectMouse.MouseOptions = _eventProcessor.Mice.ToList();
+                BaselineMouse.MouseOptions = _eventProcessor.Mice.ToList();
+            }
             if (_bufferCount++ < 100) return;
             _bufferCount = 0;
             var moves = MultiAnalyzer.Update(_eventProcessor.Moves);

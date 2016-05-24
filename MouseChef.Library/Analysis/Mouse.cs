@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Text.RegularExpressions;
 using MouseChef.Input;
 
 namespace MouseChef.Analysis
@@ -23,14 +24,19 @@ namespace MouseChef.Analysis
             Color.FromArgb(255, 0, 128),
             Color.FromArgb(0, 0, 0),
         };
-        private readonly DeviceInfoEvent _info;
+
+        public DeviceInfoEvent Info { get; }
 
         public Mouse(DeviceInfoEvent info)
         {
-            _info = info;
+            Info = info;
             Color = Colors[_nextColor++ % Colors.Length];
+            Name = Regex.Replace(Info?.Description ?? "", "^.*;", "");
         }
 
         public Color Color { get; }
+        public string Name { get; }
+
+        public override string ToString() => Name;
     }
 }

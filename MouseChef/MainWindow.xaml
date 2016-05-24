@@ -19,9 +19,9 @@
         <GridSplitter Grid.Column="1" Background="LightSlateGray" HorizontalAlignment="Stretch"/>
         <StackPanel Grid.Column="2" Margin="5">
 
-            <local:MouseInfoControl Caption="True Mouse" Margin="0 0 0 10"/>
+            <local:MouseInfoControl DataContext="{Binding BaselineMouse}" Margin="0 0 0 10"/>
 
-            <local:MouseInfoControl Caption="Test Mouse" Margin="0 0 0 10"/>
+            <local:MouseInfoControl DataContext="{Binding SubjectMouse}" Margin="0 0 0 10"/>
 
             <ItemsControl ItemsSource="{Binding MultiAnalyzer.Analyzers}">
                 <ItemsControl.ItemTemplate>
