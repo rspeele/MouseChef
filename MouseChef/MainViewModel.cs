@@ -70,9 +70,27 @@ namespace MouseChef
             Plot.Axes.Add(MakeAxis(AxisPosition.Bottom, "x"));
             Plot.Axes.Add(MakeAxis(AxisPosition.Left, "y"));
 
+            foreach (var analyzer in MultiAnalyzer.Analyzers)
+            {
+                analyzer.PropertyChanged += AnalyzerPropertyChanged;
+            }
+
             BaselineMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: true) { Caption = "Baseline Mouse" };
             SubjectMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: false) { Caption = "Subject Mouse" };
             Reset();
+        }
+
+        private static readonly string[] UpdateOnAnalyzerProperties =
+        {
+            nameof(AnalyzerModel.OverrideFactor),
+            nameof(AnalyzerModel.FactorMode),
+        };
+        private void AnalyzerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (UpdateOnAnalyzerProperties.Contains(e.PropertyName))
+            {
+                UpdateAnalysis();
+            }
         }
 
         public MouseInfoViewModel BaselineMouse { get; set; }
@@ -124,6 +142,18 @@ namespace MouseChef
 
         public void Move(MoveEvent evt) => Move(evt, bufferUpdate: 25);
 
+        private void UpdateAnalysis()
+        {
+            _bufferCount = 0;
+            var moves = MultiAnalyzer.Update(_eventHistory.Moves);
+            foreach (var mouse in _eventHistory.Mice)
+            {
+                var series = SeriesForMouse(mouse);
+                series.ItemsSource = MovesToPositions(moves.Where(m => m.Mouse == mouse));
+            }
+            Plot.InvalidatePlot(updateData: true);
+        }
+
         public void Move(MoveEvent evt, int bufferUpdate)
         {
             if (_eventHistory.Move(evt))
@@ -140,14 +170,7 @@ namespace MouseChef
                 BaselineMouse.MouseOptions = _eventHistory.Mice.ToList();
             }
             if (_bufferCount++ < bufferUpdate) return;
-            _bufferCount = 0;
-            var moves = MultiAnalyzer.Update(_eventHistory.Moves);
-            foreach (var mouse in _eventHistory.Mice)
-            {
-                var series = SeriesForMouse(mouse);
-                series.ItemsSource = MovesToPositions(moves.Where(m => m.Mouse == mouse));
-            }
-            Plot.InvalidatePlot(updateData: true);
+            UpdateAnalysis();
         }
 
         private void StopRecording()
@@ -177,7 +200,6 @@ namespace MouseChef
             if (dialog.ShowDialog() != true) return;
             StopRecording();
             Reset();
-            MoveEvent lastMove = null;
             using (var reader = new StreamReader(File.OpenRead(dialog.FileName)))
             {
                 string line;
@@ -190,19 +212,12 @@ namespace MouseChef
                             DeviceInfo(evt.DeviceInfo);
                             break;
                         case EventType.Move:
-                            if (lastMove != null)
-                            {
-                                Move(evt.Move, bufferUpdate: 1000);
-                            }
-                            lastMove = evt.Move;
+                            Move(evt.Move, bufferUpdate: int.MaxValue);
                             break;
                     }
                 }
             }
-            if (lastMove != null)
-            {
-                Move(lastMove, bufferUpdate: 0);
-            }
+            UpdateAnalysis();
         }
 
         private void SaveFile()
