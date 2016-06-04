@@ -29,10 +29,10 @@
         <Label Grid.Row="1" Grid.Column="2" Content="{Binding SelectedMouse.Info.Driver}"/>
 
         <Label Grid.Row="2" Grid.Column="0">USB Vendor</Label>
-        <Label Grid.Row="2" Grid.Column="2" Content="{Binding SelectedMouse.Info.UsbVendorId}"/>
+        <Label Grid.Row="2" Grid.Column="2" Content="{Binding SelectedMouse.UsbVendor}"/>
 
         <Label Grid.Row="3" Grid.Column="0">USB Product</Label>
-        <Label Grid.Row="3" Grid.Column="2" Content="{Binding SelectedMouse.Info.UsbProductId}"/>
+        <Label Grid.Row="3" Grid.Column="2" Content="{Binding SelectedMouse.UsbProduct}"/>
 
         <Label Grid.Row="4" Grid.Column="0">Polling Rate</Label>
         <Label Grid.Row="4" Grid.Column="2"></Label>

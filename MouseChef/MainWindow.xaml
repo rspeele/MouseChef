@@ -8,7 +8,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel}"
-        Title="MouseChef" Height="800" Width="1024">
+        Title="MouseChef" Height="800" Width="1280">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">

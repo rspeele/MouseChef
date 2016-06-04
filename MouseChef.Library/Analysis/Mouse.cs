@@ -1,41 +1,29 @@
-﻿using System.Drawing;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using MouseChef.Input;
+using MouseChef.USB;
 
 namespace MouseChef.Analysis
 {
     public class Mouse
     {
-        private static int _nextColor = 0;
-        private static readonly Color[] Colors =
-        {
-            Color.FromArgb(255, 0, 0),
-            Color.FromArgb(0, 200, 0),
-            Color.FromArgb(0, 0, 255),
-            Color.FromArgb(255, 128, 0),
-
-            Color.FromArgb(0, 128, 255),
-            Color.FromArgb(128, 0, 255),
-            Color.FromArgb(0, 200, 255),
-            Color.FromArgb(0, 128, 128),
-
-            Color.FromArgb(128, 0, 0),
-            Color.FromArgb(128, 128, 0),
-            Color.FromArgb(255, 0, 128),
-            Color.FromArgb(0, 0, 0),
-        };
-
         public DeviceInfoEvent Info { get; }
 
         public Mouse(DeviceInfoEvent info)
         {
             Info = info;
-            Color = Colors[_nextColor++ % Colors.Length];
             Name = Regex.Replace(Info?.Description ?? "", "^.*;", "");
+            string vendor, device;
+            USBInfo.Lookup(info.UsbVendorId, info.UsbProductId, out vendor, out device);
+            UsbVendorName = vendor;
+            UsbProductName = device;
         }
 
-        public Color Color { get; }
         public string Name { get; }
+        public string UsbVendorName { get; }
+        public string UsbProductName { get; }
+
+        public string UsbVendor => $"{Info.UsbVendorId:X4}: {UsbVendorName ?? "(unknown)"}";
+        public string UsbProduct => $"{Info.UsbProductId:X4}: {UsbProductName ?? "(unknown)"}";
 
         public override string ToString() => Name;
     }
