@@ -46,6 +46,12 @@ namespace MouseChef.Models
             get { return _factorMode; }
             set
             {
+                if (_factorMode == value) return;
+                if (_factorMode != AnalyzerFactorMode.Override
+                    && value == AnalyzerFactorMode.Override)
+                {
+                    OverrideFactor = Factor;
+                }
                 _factorMode = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Factor));
