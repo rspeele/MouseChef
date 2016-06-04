@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
+using Xceed.Wpf.Toolkit;
 using Mouse = MouseChef.Analysis.Mouse;
 
 namespace MouseChef
@@ -39,7 +40,7 @@ namespace MouseChef
                 Title = title
             };
 
-        private readonly EventProcessor _eventProcessor = new EventProcessor();
+        private readonly EventHistory _eventHistory = new EventHistory();
         private readonly Dictionary<Mouse, LineSeries> _series = new Dictionary<Mouse, LineSeries>();
         private InputReader _reader;
 
@@ -55,7 +56,7 @@ namespace MouseChef
 
         private void Reset()
         {
-            _eventProcessor.Reset();
+            _eventHistory.Reset();
             _series.Clear();
             MultiAnalyzer.Reset();
             BaselineMouse.Reset();
@@ -89,7 +90,9 @@ namespace MouseChef
             }
         }
 
-        public void DeviceInfo(DeviceInfoEvent evt) => _eventProcessor.DeviceInfo(evt);
+        public void StoreEvent(Event evt) => _eventHistory.StoreEvent(evt);
+
+        public void DeviceInfo(DeviceInfoEvent evt) => _eventHistory.DeviceInfo(evt);
 
         public LineSeries SeriesForMouse(Mouse mouse)
         {
@@ -119,25 +122,27 @@ namespace MouseChef
         private int _bufferCount = 0;
         private bool _recording;
 
-        public void Move(MoveEvent evt)
+        public void Move(MoveEvent evt) => Move(evt, bufferUpdate: 25);
+
+        public void Move(MoveEvent evt, int bufferUpdate)
         {
-            if (_eventProcessor.Move(evt))
+            if (_eventHistory.Move(evt))
             {
                 if (BaselineMouse.SelectedMouse == null)
                 {
-                    BaselineMouse.SelectedMouse = _eventProcessor.Mice.FirstOrDefault();
+                    BaselineMouse.SelectedMouse = _eventHistory.Mice.FirstOrDefault();
                 }
                 if (SubjectMouse.SelectedMouse == null)
                 {
-                    SubjectMouse.SelectedMouse = _eventProcessor.Mice.FirstOrDefault(m => m != BaselineMouse.SelectedMouse);
+                    SubjectMouse.SelectedMouse = _eventHistory.Mice.FirstOrDefault(m => m != BaselineMouse.SelectedMouse);
                 }
-                SubjectMouse.MouseOptions = _eventProcessor.Mice.ToList();
-                BaselineMouse.MouseOptions = _eventProcessor.Mice.ToList();
+                SubjectMouse.MouseOptions = _eventHistory.Mice.ToList();
+                BaselineMouse.MouseOptions = _eventHistory.Mice.ToList();
             }
-            if (_bufferCount++ < 100) return;
+            if (_bufferCount++ < bufferUpdate) return;
             _bufferCount = 0;
-            var moves = MultiAnalyzer.Update(_eventProcessor.Moves);
-            foreach (var mouse in _eventProcessor.Mice)
+            var moves = MultiAnalyzer.Update(_eventHistory.Moves);
+            foreach (var mouse in _eventHistory.Mice)
             {
                 var series = SeriesForMouse(mouse);
                 series.ItemsSource = MovesToPositions(moves.Where(m => m.Mouse == mouse));
@@ -170,6 +175,8 @@ namespace MouseChef
                 CheckPathExists = true,
             };
             if (dialog.ShowDialog() != true) return;
+            StopRecording();
+            Reset();
             MoveEvent lastMove = null;
             using (var reader = new StreamReader(File.OpenRead(dialog.FileName)))
             {
@@ -180,12 +187,12 @@ namespace MouseChef
                     switch (evt.Type)
                     {
                         case EventType.DeviceInfo:
-                            _eventProcessor.DeviceInfo(evt.DeviceInfo);
+                            DeviceInfo(evt.DeviceInfo);
                             break;
                         case EventType.Move:
                             if (lastMove != null)
                             {
-                                _eventProcessor.Move(lastMove);
+                                Move(evt.Move, bufferUpdate: 1000);
                             }
                             lastMove = evt.Move;
                             break;
@@ -194,13 +201,29 @@ namespace MouseChef
             }
             if (lastMove != null)
             {
-                Move(lastMove);
+                Move(lastMove, bufferUpdate: 0);
             }
         }
 
         private void SaveFile()
         {
-            throw new NotImplementedException();
+            var dialog = new SaveFileDialog
+            {
+                Filter = "Mouse Logs (*.json)|*.json",
+                CheckPathExists = true,
+            };
+            if (dialog.ShowDialog() != true) return;
+            try
+            {
+                using (var stream = File.Create(dialog.FileName))
+                {
+                    _eventHistory.Save(stream);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         public ICommand StartRecordingCommand => new Command(StartRecording);

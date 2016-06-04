@@ -34,6 +34,7 @@ namespace MouseChef.Input
             {
                 var evtText = _mouseMeat.StandardOutput.ReadLine();
                 var evt = JsonConvert.DeserializeObject<Event>(evtText);
+                _eventProcessor.StoreEvent(evt);
                 switch (evt.Type)
                 {
                     case EventType.DeviceInfo:

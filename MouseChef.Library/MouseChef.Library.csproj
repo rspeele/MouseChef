@@ -48,7 +48,7 @@
     <Compile Include="Analysis\Analyzers\DPIAnalyzer.cs" />
     <Compile Include="Analysis\Analyzers\AngleAnalyzer.cs" />
     <Compile Include="Analysis\Analyzers\LagAnalyzer.cs" />
-    <Compile Include="Analysis\EventProcessor.cs" />
+    <Compile Include="Analysis\EventHistory.cs" />
     <Compile Include="Analysis\IAnalyzer.cs" />
     <Compile Include="Analysis\IStats.cs" />
     <Compile Include="Analysis\Mouse.cs" />
