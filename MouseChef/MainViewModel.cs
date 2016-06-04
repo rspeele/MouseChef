@@ -72,12 +72,22 @@ namespace MouseChef
 
             foreach (var analyzer in MultiAnalyzer.Analyzers)
             {
-                analyzer.PropertyChanged += AnalyzerPropertyChanged;
+                analyzer.PropertyChanged += AnalyzerOnPropertyChanged;
             }
 
             BaselineMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: true) { Caption = "Baseline Mouse" };
+            BaselineMouse.PropertyChanged += MouseInfoOnPropertyChanged;
             SubjectMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: false) { Caption = "Subject Mouse" };
+            SubjectMouse.PropertyChanged += MouseInfoOnPropertyChanged;
             Reset();
+        }
+
+        private void MouseInfoOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(MouseInfoViewModel.SelectedMouse))
+            {
+                UpdateAnalysis();
+            }
         }
 
         private static readonly string[] UpdateOnAnalyzerProperties =
@@ -85,7 +95,7 @@ namespace MouseChef
             nameof(AnalyzerModel.OverrideFactor),
             nameof(AnalyzerModel.FactorMode),
         };
-        private void AnalyzerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void AnalyzerOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (UpdateOnAnalyzerProperties.Contains(e.PropertyName))
             {
@@ -137,7 +147,7 @@ namespace MouseChef
             }
         }
 
-        private int _bufferCount = 0;
+        private int _bufferCount;
         private bool _recording;
 
         public void Move(MoveEvent evt) => Move(evt, bufferUpdate: 25);
