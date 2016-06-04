@@ -52,7 +52,7 @@
                                 IsReadOnly="True" Value="{Binding Factor,Mode=OneWay}" FormatString="0.000"/>
                                 <xctk:DoubleUpDown
                                 Grid.Row="0" Grid.Column="2" Visibility="{Binding IsOverridden,Converter={StaticResource BoolToVisibility}}"
-                                Value="{Binding OverrideFactor}" FormatString="0.000"/>
+                                Value="{Binding OverrideFactor}" FormatString="0.000" Increment="0.05"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
