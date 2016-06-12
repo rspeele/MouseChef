@@ -26,7 +26,9 @@ namespace MouseChef.Analysis
                 _mice[evt.DeviceId] = mouse;
                 newMouse = true;
             }
-            Moves.Add(new Move(mouse, evt.Us, evt.Dx, evt.Dy));
+            var move = new Move(mouse, evt.Us, evt.Dx, evt.Dy);
+            Moves.Add(move);
+            mouse.OnMove(move);
             return newMouse;
         }
 

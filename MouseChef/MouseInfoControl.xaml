@@ -35,7 +35,11 @@
         <Label Grid.Row="3" Grid.Column="2" Content="{Binding SelectedMouse.UsbProduct}"/>
 
         <Label Grid.Row="4" Grid.Column="0">Polling Rate</Label>
-        <Label Grid.Row="4" Grid.Column="2"></Label>
+        <Label
+            Grid.Row="4"
+            Grid.Column="2"
+            Content="{Binding SelectedMouse.PollingRate.MeanValue}"
+            ContentStringFormat="0.# hz"/>
     </Grid>
     </Border>
 </UserControl>
