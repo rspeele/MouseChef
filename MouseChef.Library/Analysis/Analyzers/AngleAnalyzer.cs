@@ -15,9 +15,10 @@ namespace MouseChef.Analysis.Analyzers
         // We record a data point each time all mice have displaced by at least this much in their own units.
         private const double DisplacementInterval = 50.0;
 
-        public string Name => "Angle Offset";
+        public string Name => "Angle Offset (rads)";
         public string Description => AnalyzerDescription;
         public double DefaultFactor => 0.0;
+        public bool AllowOverrideFactor => true;
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {

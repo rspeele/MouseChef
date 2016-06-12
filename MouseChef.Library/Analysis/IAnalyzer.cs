@@ -7,6 +7,7 @@ namespace MouseChef.Analysis
         string Name { get; }
         string Description { get; }
         double DefaultFactor { get; }
+        bool AllowOverrideFactor { get; }
         /// <summary>
         /// Generate statistics from a stream of moves.
         /// The values reported in the resulting statistics are factors that would transform the subject mouse

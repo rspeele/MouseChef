@@ -35,7 +35,7 @@
                 <ItemsControl ItemsSource="{Binding MultiAnalyzer.Analyzers}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Margin="0 10 0 10">
+                            <Grid Margin="0 10 0 10" Visibility="{Binding Analyzer.AllowOverrideFactor,Converter={StaticResource BoolToVisibility}}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>

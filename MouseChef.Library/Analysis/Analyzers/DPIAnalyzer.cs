@@ -18,6 +18,7 @@ namespace MouseChef.Analysis.Analyzers
         public string Name => "DPI Ratio";
         public string Description => AnalyzerDescription;
         public double DefaultFactor => 1.0;
+        public bool AllowOverrideFactor => true;
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {

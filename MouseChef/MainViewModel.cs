@@ -48,7 +48,8 @@ namespace MouseChef
         {
             new LagAnalyzer(),
             new AngleAnalyzer(),
-            new DPIAnalyzer(), 
+            new DPIAnalyzer(),
+            new BaselineSpeedAnalyzer(),
         };
 
         public MultiAnalyzerModel MultiAnalyzer { get; } = new MultiAnalyzerModel
