@@ -13,7 +13,7 @@ namespace MouseChef.Analysis.Analyzers
             "Ratio of subject DPI / baseline DPI.";
 
         // We record a data point each time all mice have traveled at least this much in their own units.
-        private const double DistanceInterval = 50.0;
+        private const double DistanceInterval = 100.0;
 
         public string Name => "DPI Ratio";
         public string Description => AnalyzerDescription;

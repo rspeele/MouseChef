@@ -13,7 +13,7 @@ namespace MouseChef.Analysis.Analyzers
             "Radians of rotation of the subject mouse relative to the baseline mouse.";
 
         // We record a data point each time all mice have displaced by at least this much in their own units.
-        private const double DisplacementInterval = 50.0;
+        private const double DisplacementInterval = 100.0;
 
         public string Name => "Angle Offset (rads)";
         public string Description => AnalyzerDescription;
@@ -35,6 +35,8 @@ namespace MouseChef.Analysis.Analyzers
                     if (baseD.MagnitudeSquared > threshold && subjD.MagnitudeSquared > threshold)
                     {
                         var angleDelta = subjD.Angle - baseD.Angle;
+                        // normalize to range [-pi, pi]
+                        angleDelta = Math.Atan2(Math.Sin(angleDelta), Math.Cos(angleDelta));
                         stats.AddPoint(crossTime, angleDelta);
                     }
                     // Reset trackers.
