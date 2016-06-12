@@ -3,6 +3,8 @@ using System.IO;
 using System.Text;
 using MouseChef.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 
 namespace MouseChef.Analysis
 {
@@ -44,11 +46,17 @@ namespace MouseChef.Analysis
 
         public void Save(Stream stream)
         {
+            var settings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                NullValueHandling = NullValueHandling.Ignore,
+                Converters = { new StringEnumConverter { CamelCaseText = true } }
+            };
             using (var writer = new StreamWriter(stream, Encoding.UTF8, 0x1000, leaveOpen: true))
             {
                 foreach (var evt in _events)
                 {
-                    writer.WriteLine(JsonConvert.SerializeObject(evt, Formatting.None));
+                    writer.WriteLine(JsonConvert.SerializeObject(evt, Formatting.None, settings));
                 }
             }
         }
