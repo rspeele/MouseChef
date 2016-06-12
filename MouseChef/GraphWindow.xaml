@@ -7,7 +7,7 @@
         xmlns:oxy="http://oxyplot.org/wpf"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:GraphViewModel}"
-        Title="GraphWindow" Height="600" Width="800">
+        Title="{Binding Title}" Height="600" Width="800">
     <Grid>
         <oxy:PlotView Model="{Binding Plot}" />
     </Grid>

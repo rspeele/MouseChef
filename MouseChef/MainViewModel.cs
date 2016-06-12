@@ -85,6 +85,8 @@ namespace MouseChef
             Graphables = MultiAnalyzer.Analyzers.Select(a => new Graphable(a.Analyzer.Name, () => a.LatestStats))
                 .Concat(new[] { new Graphable("Time (s)", () => new Seconds()) })
                 .ToList();
+            SelectedX = Graphables.LastOrDefault();
+            SelectedY = Graphables.FirstOrDefault();
             Reset();
         }
 
@@ -264,7 +266,7 @@ namespace MouseChef
         {
             if (SelectedX != null && SelectedY != null)
             {
-                new GraphWindow(SelectedX.GetStats(), SelectedY.GetStats()).ShowDialog();
+                new GraphWindow(SelectedX, SelectedY).ShowDialog();
             }
         }
 

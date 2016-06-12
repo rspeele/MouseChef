@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using MouseChef.Analysis;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -8,10 +7,11 @@ namespace MouseChef
 {
     public class GraphViewModel
     {
-        public GraphViewModel(IStats xStats, IStats yStats)
+        public GraphViewModel(Graphable xStats, Graphable yStats)
         {
             Plot = new PlotModel();
             FillPlot(Plot, xStats, yStats);
+            Title = $"{yStats} over {xStats}";
         }
 
         private static LinearAxis MakeAxis(AxisPosition position, string title)
@@ -23,14 +23,16 @@ namespace MouseChef
                 Title = title
             };
 
-        private static void FillPlot(PlotModel plot, IStats xStats, IStats yStats)
+        private static void FillPlot(PlotModel plot, Graphable xGraph, Graphable yGraph)
         {
-            var xAxis = MakeAxis(AxisPosition.Bottom, xStats.Description);
-            var yAxis = MakeAxis(AxisPosition.Left, yStats.Description);
+            var xAxis = MakeAxis(AxisPosition.Bottom, xGraph.ToString());
+            var yAxis = MakeAxis(AxisPosition.Left, yGraph.ToString());
             plot.Axes.Add(xAxis);
             plot.Axes.Add(yAxis);
             var series = new LineSeries();
             plot.Series.Add(series);
+            var xStats = xGraph.GetStats();
+            var yStats = yGraph.GetStats();
             var points = xStats.DataPoints.Concat(yStats.DataPoints)
                 .Select(p => new
                 {
@@ -48,6 +50,7 @@ namespace MouseChef
             plot.InvalidatePlot(false);
         }
 
+        public string Title { get; }
         public PlotModel Plot { get; }
     }
 }

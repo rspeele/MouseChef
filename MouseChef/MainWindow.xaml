@@ -59,10 +59,10 @@
                 </ItemsControl>
 
                 <StackPanel Orientation="Horizontal">
-                    <ComboBox Width="150" ItemsSource="{Binding Graphables}" SelectedItem="{Binding SelectedY}"/>
+                    <ComboBox VerticalAlignment="Center" Width="150" ItemsSource="{Binding Graphables}" SelectedItem="{Binding SelectedY}"/>
                     <Label>over</Label>
-                    <ComboBox Width="150" ItemsSource="{Binding Graphables}" SelectedItem="{Binding SelectedX}"/>
-                    <Button Content="Graph" Padding="5" Command="{Binding OpenGraphCommand}"/>
+                    <ComboBox VerticalAlignment="Center" Width="150" ItemsSource="{Binding Graphables}" SelectedItem="{Binding SelectedX}"/>
+                    <Button Content="Graph" Margin="5 0 0 0" Command="{Binding OpenGraphCommand}"/>
                 </StackPanel>
 
             </StackPanel>

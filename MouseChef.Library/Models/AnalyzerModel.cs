@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using MouseChef.Analysis;
 
@@ -22,6 +23,7 @@ namespace MouseChef.Models
         {
             Analyzer = analyzer;
             OverrideFactor = analyzer.DefaultFactor;
+            _latestStats = analyzer.Analyze(null, null, Enumerable.Empty<Move>());
         }
 
         public IAnalyzer Analyzer { get; }

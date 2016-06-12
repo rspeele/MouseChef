@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using MouseChef.Analysis;
 
 namespace MouseChef
 {
@@ -8,7 +7,7 @@ namespace MouseChef
     /// </summary>
     public partial class GraphWindow : Window
     {
-        public GraphWindow(IStats xStats, IStats yStats)
+        public GraphWindow(Graphable xStats, Graphable yStats)
         {
             InitializeComponent();
             DataContext = new GraphViewModel(xStats, yStats);
