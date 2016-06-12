@@ -32,27 +32,34 @@ namespace MouseChef.Input
         {
             while (!_disposed)
             {
-                var evtText = _mouseMeat.StandardOutput.ReadLine();
-                var evt = JsonConvert.DeserializeObject<Event>(evtText);
-                _eventProcessor.StoreEvent(evt);
-                switch (evt.Type)
+                try
                 {
-                    case EventType.DeviceInfo:
-                        _eventProcessor.DeviceInfo(evt.DeviceInfo);
-                        break;
-                    case EventType.Move:
-                        _eventProcessor.Move(evt.Move);
-                        break;
+                    var evtText = _mouseMeat.StandardOutput.ReadLine();
+                    var evt = JsonConvert.DeserializeObject<Event>(evtText);
+                    _eventProcessor.StoreEvent(evt);
+                    switch (evt.Type)
+                    {
+                        case EventType.DeviceInfo:
+                            _eventProcessor.DeviceInfo(evt.DeviceInfo);
+                            break;
+                        case EventType.Move:
+                            _eventProcessor.Move(evt.Move);
+                            break;
+                    }
+                }
+                catch when (_disposed)
+                {
+                    // we don't really care if something bad happens while we're tearing down
                 }
             }
-            _mouseMeat.StandardInput.WriteLine("q");
-            _mouseMeat.StandardInput.Flush();
         }
 
         public void Dispose()
         {
             if (_disposed) return;
             _disposed = true;
+            _mouseMeat.StandardInput.WriteLine("q");
+            _mouseMeat.StandardInput.Flush();
             _reader.Join();
             try
             {

@@ -9,6 +9,9 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModel}"
         Title="MouseChef" Height="800" Width="1280">
+    <Window.InputBindings>
+        <KeyBinding Key="Space" Modifiers="Control" Command="{Binding ToggleRecordingCommand}"></KeyBinding>
+    </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -18,6 +21,17 @@
                 <MenuItem Header="_End Recording" IsEnabled="{Binding Recording}" Command="{Binding StopRecordingCommand}"/>
             </MenuItem>
         </Menu>
+        <Label
+            DockPanel.Dock="Top"
+            Foreground="Red"
+            Visibility="{Binding Recording,Converter={StaticResource BoolToVisibility}}">
+            Recording (ctrl+space to stop)
+        </Label>
+        <Label
+            DockPanel.Dock="Top"
+            Visibility="{Binding Recording,Converter={StaticResource BoolToVisibility},ConverterParameter=NOT}">
+            Not recording (ctrl+space to start)
+        </Label>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="2*"/>

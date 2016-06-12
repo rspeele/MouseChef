@@ -272,6 +272,11 @@ namespace MouseChef
 
         public ICommand StartRecordingCommand => new Command(StartRecording);
         public ICommand StopRecordingCommand => new Command(StopRecording);
+        public ICommand ToggleRecordingCommand => new Command(() =>
+        {
+            if (Recording) StopRecording();
+            else StartRecording();
+        });
         public ICommand OpenFileCommand => new Command(OpenFile);
         public ICommand SaveFileCommand => new Command(SaveFile);
         public ICommand OpenGraphCommand => new Command(OpenGraph);
