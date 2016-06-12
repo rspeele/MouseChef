@@ -57,6 +57,7 @@
     <Compile Include="Analysis\PointStats.cs" />
     <Compile Include="Analysis\TimePoint.cs" />
     <Compile Include="Analysis\TimePointInterval.cs" />
+    <Compile Include="Analysis\Seconds.cs" />
     <Compile Include="Input\IEventProcessor.cs" />
     <Compile Include="Input\InputReader.cs" />
     <Compile Include="Input\SerializationTypes\DeviceInfoEvent.cs" />

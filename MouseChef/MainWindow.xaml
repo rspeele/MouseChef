@@ -57,6 +57,14 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
+
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox Width="150" ItemsSource="{Binding Graphables}" SelectedItem="{Binding SelectedY}"/>
+                    <Label>over</Label>
+                    <ComboBox Width="150" ItemsSource="{Binding Graphables}" SelectedItem="{Binding SelectedX}"/>
+                    <Button Content="Graph" Padding="5" Command="{Binding OpenGraphCommand}"/>
+                </StackPanel>
+
             </StackPanel>
         </Grid>
     </DockPanel>

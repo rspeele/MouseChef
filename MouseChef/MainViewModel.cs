@@ -55,6 +55,8 @@ namespace MouseChef
         public MultiAnalyzerModel MultiAnalyzer { get; } = new MultiAnalyzerModel
             (Analzyers().Select(a => new AnalyzerModel(a)));
 
+        public List<Graphable> Graphables { get; }
+
         private void Reset()
         {
             _eventHistory.Reset();
@@ -80,6 +82,9 @@ namespace MouseChef
             BaselineMouse.PropertyChanged += MouseInfoOnPropertyChanged;
             SubjectMouse = new MouseInfoViewModel(MultiAnalyzer, isBaseline: false) { Caption = "Subject Mouse" };
             SubjectMouse.PropertyChanged += MouseInfoOnPropertyChanged;
+            Graphables = MultiAnalyzer.Analyzers.Select(a => new Graphable(a.Analyzer.Name, () => a.LatestStats))
+                .Concat(new[] { new Graphable("Time (s)", () => new Seconds()) })
+                .ToList();
             Reset();
         }
 
@@ -252,10 +257,22 @@ namespace MouseChef
             }
         }
 
+        public Graphable SelectedX { get; set; }
+        public Graphable SelectedY { get; set; }
+
+        private void OpenGraph()
+        {
+            if (SelectedX != null && SelectedY != null)
+            {
+                new GraphWindow(SelectedX.GetStats(), SelectedY.GetStats()).ShowDialog();
+            }
+        }
+
         public ICommand StartRecordingCommand => new Command(StartRecording);
         public ICommand StopRecordingCommand => new Command(StopRecording);
         public ICommand OpenFileCommand => new Command(OpenFile);
         public ICommand SaveFileCommand => new Command(SaveFile);
+        public ICommand OpenGraphCommand => new Command(OpenGraph);
 
         public void Dispose() => StopRecording();
         public event PropertyChangedEventHandler PropertyChanged;
