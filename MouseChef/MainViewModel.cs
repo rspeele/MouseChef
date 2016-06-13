@@ -138,6 +138,7 @@ namespace MouseChef
             {
                 DataFieldX = "X",
                 DataFieldY = "Y",
+                Title = mouse.Name,
             };
             Plot.Series.Add(found);
             _series[mouse] = found;
