@@ -211,7 +211,7 @@ namespace MouseChef
         {
             var dialog = new OpenFileDialog
             {
-                Filter = "Mouse Logs (*.json)|*.json",
+                Filter = "Mouse Logs (*.mouselog)|*.mouselog",
                 CheckFileExists = true,
                 CheckPathExists = true,
             };
@@ -242,7 +242,7 @@ namespace MouseChef
         {
             var dialog = new SaveFileDialog
             {
-                Filter = "Mouse Logs (*.json)|*.json",
+                Filter = "Mouse Logs (*.mouselog)|*.mouselog",
                 CheckPathExists = true,
             };
             if (dialog.ShowDialog() != true) return;
