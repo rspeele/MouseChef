@@ -45,3 +45,4 @@ The following diagram demonstrates this problem:
 Once you've recorded enough input, just hit ctrl+space again to stop
 recording. Now you can play around with the UI.
 
+![UI cheatsheet](https://github.com/rspeele/MouseChef/raw/master/cheatsheet.png)
