@@ -27,9 +27,9 @@ connection. As long as they move together without slipping around
 relative to one another, you should be fine. Painter's tape is good
 for not leaving too much sticky residue.
 
-Next, start up MouseChef and hit ctrl+space to start recording input.
-Move the two mice around. Try slow movements, fast movements, both
-axes, stopping and starting, whatever you can think of.
+Next, start up MouseChef.exe and hit ctrl+space to start recording
+input. Move the two mice around. Try slow movements, fast movements,
+both axes, stopping and starting, whatever you can think of.
 
 Whatever you do, *don't* rotate the taped together mice. That will
 ruin everything, because unless the center of rotation is exactly at
