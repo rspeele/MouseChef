@@ -22,7 +22,14 @@ namespace MouseChef.Analysis.Analyzers
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {
-            var stats = new PointStats(StatDescription, DefaultFactor);
+            var stats = new PointStats
+                ( StatDescription
+                , DefaultFactor
+                , 0.0
+                , 4.0
+                , 1.0
+                , 0.1
+                );
 
             var baseD = 0.0;
             var subjD = 0.0;

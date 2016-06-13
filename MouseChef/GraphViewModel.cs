@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using MouseChef.Analysis;
 using OxyPlot;
 using OxyPlot.Axes;
 using OxyPlot.Series;
@@ -14,25 +15,29 @@ namespace MouseChef
             Title = $"{yStats} over {xStats}";
         }
 
-        private static LinearAxis MakeAxis(AxisPosition position, string title)
+        private static LinearAxis MakeAxis(AxisPosition position, string title, IStats stats)
             => new LinearAxis
             {
                 Position = position,
                 MinorGridlineStyle = LineStyle.Solid,
                 MajorGridlineStyle = LineStyle.Solid,
-                Title = title
+                Minimum = stats.ExpectedMinimum,
+                Maximum = stats.ExpectedMaximum,
+                MinorStep = stats.MinorStep ?? double.NaN,
+                MajorStep = stats.MajorStep,
+                Title = title,
             };
 
         private static void FillPlot(PlotModel plot, Graphable xGraph, Graphable yGraph)
         {
-            var xAxis = MakeAxis(AxisPosition.Bottom, xGraph.ToString());
-            var yAxis = MakeAxis(AxisPosition.Left, yGraph.ToString());
+            var xStats = xGraph.GetStats();
+            var yStats = yGraph.GetStats();
+            var xAxis = MakeAxis(AxisPosition.Bottom, xGraph.ToString(), xStats);
+            var yAxis = MakeAxis(AxisPosition.Left, yGraph.ToString(), yStats);
             plot.Axes.Add(xAxis);
             plot.Axes.Add(yAxis);
             var series = new LineSeries();
             plot.Series.Add(series);
-            var xStats = xGraph.GetStats();
-            var yStats = yGraph.GetStats();
             var points = xStats.DataPoints.Concat(yStats.DataPoints)
                 .Select(p => new
                 {

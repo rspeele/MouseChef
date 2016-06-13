@@ -62,7 +62,14 @@ namespace MouseChef.Analysis.Analyzers
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {
-            var stats = new PointStats(StatDescription, DefaultFactor);
+            var stats = new PointStats
+                ( StatDescription
+                , DefaultFactor
+                , -250.0
+                , 250.0
+                , 100.0
+                , 10.0
+                );
 
             var baseAnalyzer = new MouseLagProcessor(baseline, stats, isBaseline: true);
             var subjectAnalyzer = new MouseLagProcessor(subject, stats, isBaseline: false);

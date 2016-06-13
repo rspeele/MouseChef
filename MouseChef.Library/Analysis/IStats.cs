@@ -5,7 +5,7 @@ namespace MouseChef.Analysis
 {
     public interface IStats
     {
-        string Description { get; } 
+        string Description { get; }
         TimeSpan Start { get; }
         TimeSpan End { get; }
         double MinValue { get; }
@@ -15,5 +15,10 @@ namespace MouseChef.Analysis
         double StandardDeviation { get; }
         double ValueAt(TimeSpan time);
         IEnumerable<TimePoint> DataPoints { get; }
+
+        double ExpectedMinimum { get; }
+        double? MinorStep { get; }
+        double MajorStep { get; }
+        double ExpectedMaximum { get; }
     }
 }

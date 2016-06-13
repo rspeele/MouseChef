@@ -17,5 +17,9 @@ namespace MouseChef.Analysis
         public double ValueAt(TimeSpan time) => time.TotalSeconds;
 
         public IEnumerable<TimePoint> DataPoints => Enumerable.Empty<TimePoint>();
+        public double ExpectedMinimum => 0.0;
+        public double? MinorStep => 1.0;
+        public double MajorStep => 10.0;
+        public double ExpectedMaximum => 30.0;
     }
 }

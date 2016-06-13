@@ -21,7 +21,15 @@ namespace MouseChef.Analysis.Analyzers
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {
-            var stats = new PointStats(StatDescription, DefaultFactor);
+            var stats = new PointStats
+                ( StatDescription
+                , DefaultFactor
+                , 0.0
+                , 100000.0
+                , 10000.0
+                , 1000.0
+                );
+
             TimeSpan? start = null;
             var distance = 0.0;
             foreach (var move in moves)

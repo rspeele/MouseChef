@@ -21,10 +21,14 @@ namespace MouseChef.Analysis
         private KeyValuePair<int, double> _cachedVariance;
         private KeyValuePair<int, double> _cachedMedian;
 
-        public PointStats(string description, double defaultValue)
+        public PointStats(string description, double defaultValue, double expectedMinimum, double expectedMaximum, double majorStep, double? minorStep = null)
         {
             Description = description;
             _defaultValue = defaultValue;
+            ExpectedMinimum = expectedMinimum;
+            MinorStep = minorStep;
+            MajorStep = majorStep;
+            ExpectedMaximum = expectedMaximum;
             _cachedMedian = _cachedVariance = new KeyValuePair<int, double>(0, defaultValue);
         }
 
@@ -163,5 +167,9 @@ namespace MouseChef.Analysis
         }
 
         public IEnumerable<TimePoint> DataPoints => _points.AsReadOnly();
+        public double ExpectedMinimum { get; }
+        public double? MinorStep { get; }
+        public double MajorStep { get; }
+        public double ExpectedMaximum { get; }
     }
 }

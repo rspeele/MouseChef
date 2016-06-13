@@ -9,7 +9,7 @@ namespace MouseChef.Analysis
 {
     public class Mouse : INotifyPropertyChanged
     {
-        private readonly PointStats _pollingRate = new PointStats("Polling Rate", 0);
+        private readonly PointStats _pollingRate = new PointStats("Polling Rate", 0, 0.0, 1000.0, 100.0);
         public DeviceInfoEvent Info { get; }
 
         public Mouse(DeviceInfoEvent info)

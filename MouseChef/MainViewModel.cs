@@ -46,9 +46,9 @@ namespace MouseChef
 
         private static IEnumerable<IAnalyzer> Analzyers() => new IAnalyzer[]
         {
-            new LagAnalyzer(),
-            new AngleAnalyzer(),
             new DPIAnalyzer(),
+            new AngleAnalyzer(),
+            new LagAnalyzer(),
             new BaselineSpeedAnalyzer(),
         };
 

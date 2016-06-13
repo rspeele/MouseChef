@@ -22,7 +22,13 @@ namespace MouseChef.Analysis.Analyzers
 
         public IStats Analyze(Mouse baseline, Mouse subject, IEnumerable<Move> moves)
         {
-            var stats = new PointStats(StatDescription, DefaultFactor);
+            var stats = new PointStats
+                ( StatDescription
+                , DefaultFactor
+                , -Math.PI
+                , Math.PI
+                , 0.1
+                );
 
             const double threshold = DisplacementInterval * DisplacementInterval;
             var baseD = Vec.Zero;
