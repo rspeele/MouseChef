@@ -10,7 +10,7 @@ namespace MouseChef.Analysis
         public TimeSpan Start => TimeSpan.Zero;
         public TimeSpan End => TimeSpan.MaxValue;
         public double MinValue => 0.0;
-        public double MaxValue => TimeSpan.MaxValue.TotalSeconds;
+        public double MaxValue => 0.0;
         public double MedianValue => 0.0;
         public double MeanValue => 0.0;
         public double StandardDeviation => 0.0;

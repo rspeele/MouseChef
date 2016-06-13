@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using MouseChef.Analysis;
 using OxyPlot;
 using OxyPlot.Axes;
@@ -21,8 +22,8 @@ namespace MouseChef
                 Position = position,
                 MinorGridlineStyle = LineStyle.Solid,
                 MajorGridlineStyle = LineStyle.Solid,
-                Minimum = stats.ExpectedMinimum,
-                Maximum = stats.ExpectedMaximum,
+                Minimum = Math.Min(stats.ExpectedMinimum, stats.MinValue),
+                Maximum = Math.Max(stats.ExpectedMaximum, stats.MaxValue),
                 MinorStep = stats.MinorStep ?? double.NaN,
                 MajorStep = stats.MajorStep,
                 Title = title,
