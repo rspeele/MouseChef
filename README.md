@@ -20,6 +20,11 @@ Example:
 You can also use this technique to detect input lag or whether a mouse
 has built-in acceleration (compared to another mouse).
 
+### How to get it
+
+You can download a zip of the latest release from the
+[releases tab](https://github.com/rspeele/MouseChef/releases/tag/v0.0.1).
+
 ### How to use it
 
 First, tape your mice together. It doesn't have to be a rock solid
